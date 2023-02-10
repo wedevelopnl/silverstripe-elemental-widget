@@ -1,0 +1,37 @@
+{
+    "name": "wedevelopnl/silverstripe-elemental-widget",
+    "description": "Re-usable widgets for silverstripe-elemental",
+    "keywords": [
+        "widget",
+        "silverstripe",
+        "elemental"
+    ],
+    "type": "silverstripe-vendormodule",
+    "require": {
+        "php": ">=8.1",
+        "silverstripe/framework": "^4.11",
+        "silverstripe/cms": "^4.11",
+        "dnadesign/silverstripe-elemental": "^4.9",
+        "sheadawson/silverstripe-dependentdropdownfield": "^2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.4"
+    },
+    "extra": {
+        "installer-name": "silverstripe-elemental-widget-userforms",
+        "expose": [
+            "images"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "WeDevelop\\ElementalWidget\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": false,
+            "silverstripe/vendor-plugin": false
+        }
+    }
+}
