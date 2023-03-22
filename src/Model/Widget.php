@@ -12,17 +12,21 @@ use SilverStripe\ORM\DataObject;
 
 /**
  * @property string $Title
+ * @property string $IsPartOfCollection
  * @property string $ImportID
- * @method array<ElementWidget> Widgets
+ * @method array<ElementWidget> Elements
  */
 class Widget extends DataObject
 {
     /** @config */
     private static string $table_name = 'Widget';
 
+    private static string $icon = 'font-icon-database';
+
     /** @config */
     private static array $db = [
         'Title' => 'Varchar(255)',
+        'IsPartOfCollection' => 'Boolean(1)',
     ];
 
     /** @config */
@@ -35,6 +39,18 @@ class Widget extends DataObject
         'Title',
         'Created',
         'LastEdited' => 'Last edited',
+    ];
+
+    /** @vconfig */
+    private static array $defaults = [
+        'IsPartOfCollection' => true,
+    ];
+
+    /** @config */
+    private static array $searchable_fields = [
+        'Title',
+        'Created',
+        'LastEdited',
     ];
 
     private ?ElementWidget $element = null;
@@ -91,5 +107,10 @@ class Widget extends DataObject
     public function canView($member = null): bool
     {
         return true;
+    }
+
+    public function getIcon()
+    {
+        return self::$icon;
     }
 }
