@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WeDevelop\ElementalWidget\Admin;
 
 use SilverStripe\Forms\GridField\GridField_ActionMenu;
@@ -118,7 +120,7 @@ class WidgetAdmin extends ModelAdmin
         $widgetModelsInfo = ClassInfo::subclassesFor(Widget::class, false);
         $widgetModels = [];
 
-        foreach($widgetModelsInfo as $lowercase => $uppercase) {
+        foreach ($widgetModelsInfo as $lowercase => $uppercase) {
             $widgetModels[] = $uppercase;
         }
 

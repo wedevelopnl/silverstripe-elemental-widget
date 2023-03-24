@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WeDevelop\ElementalWidget\Model;
 
 use SilverStripe\Forms\FieldList;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WeDevelop\ElementalWidget\Element;
 
 use DNADesign\Elemental\Models\BaseElement;
@@ -9,9 +11,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HeaderField;
-use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -19,7 +19,6 @@ use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use UncleCheese\DisplayLogic\Forms\Wrapper;
 use WeDevelop\ElementalWidget\Model\Widget;
-use WeDevelop\ElementalWidget\UserForm\Widget\UserFormWidget;
 
 /**
  * @property int $WidgetID
@@ -69,7 +68,7 @@ class ElementWidget extends BaseElement
             'SourcesFromCollection',
         ]);
 
-        $widgetFn = static function($val) {
+        $widgetFn = static function ($val) {
             $options = $val::get()->filter(['IsPartOfCollection' => true])->map();
 
             $options->unshift(0, 'Select a widget');
@@ -106,7 +105,7 @@ class ElementWidget extends BaseElement
                 ->displayIf('SourcesFromCollection')->isNotChecked()
                 ->andIf('WidgetClass')->isNotEmpty()
                 ->andIf('CurrentWidgetID')->isNotEmpty()
-                ->end()
+                ->end(),
         ]);
 
         if ($this->Widget() && $this->Widget()->exists()) {
