@@ -23,32 +23,48 @@ class Widget extends DataObject
     /** @config */
     private static string $table_name = 'Widget';
 
+    /** @config */
     private static string $icon = 'font-icon-database';
 
-    /** @config */
+    /**
+     * @var array<string, string>
+     * @config
+     */
     private static array $db = [
         'Title' => 'Varchar(255)',
         'IsPartOfCollection' => 'Boolean(1)',
     ];
 
-    /** @config */
+    /**
+     * @var array<string, string>
+     * @config
+     */
     private static array $has_many = [
         'Elements' => ElementWidget::class,
     ];
 
-    /** @config */
+    /**
+     * @var array<int|string, string>
+     * @config
+     */
     private static array $summary_fields = [
         'Title',
         'Created',
         'LastEdited' => 'Last edited',
     ];
 
-    /** @vconfig */
+    /**
+     * @var array<string, mixed>
+     * @config
+     */
     private static array $defaults = [
         'IsPartOfCollection' => true,
     ];
 
-    /** @config */
+    /**
+     * @var array<string>
+     * @config
+     */
     private static array $searchable_fields = [
         'Title',
         'Created',
@@ -111,7 +127,7 @@ class Widget extends DataObject
         return true;
     }
 
-    public function getIcon()
+    public function getIcon(): string
     {
         return self::$icon;
     }
