@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WeDevelop\ElementalWidget\Admin;
 
 use SilverStripe\Forms\GridField\GridField_ActionMenu;
@@ -15,6 +17,7 @@ use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldSortableHeader;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\ORM\DataList;
 use WeDevelop\ElementalWidget\GridField\PromoteToCollectionGridFieldAction;
@@ -36,7 +39,10 @@ class WidgetAdmin extends ModelAdmin
     /** @config */
     private static string $menu_icon_class = 'font-icon-menu-modaladmin';
 
-    /** @config */
+    /**
+     * @var array<string, string>
+     * @config
+     */
     private static array $managed_models = [];
 
     public function getGridField(): GridField
@@ -63,7 +69,7 @@ class WidgetAdmin extends ModelAdmin
         return $gridField;
     }
 
-    public function getEditForm($id = null, $fields = null)
+    public function getEditForm($id = null, $fields = null): Form
     {
         $form = parent::getEditForm();
         $formFields = $form->Fields();
@@ -112,13 +118,16 @@ class WidgetAdmin extends ModelAdmin
         return $form;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getManagedModels(): array
     {
         $models = self::config()->get('managed_models');
         $widgetModelsInfo = ClassInfo::subclassesFor(Widget::class, false);
         $widgetModels = [];
 
-        foreach($widgetModelsInfo as $lowercase => $uppercase) {
+        foreach ($widgetModelsInfo as $lowercase => $uppercase) {
             $widgetModels[] = $uppercase;
         }
 

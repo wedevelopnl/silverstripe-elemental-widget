@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WeDevelop\ElementalWidget\GridField;
 
 use SilverStripe\Forms\GridField\AbstractGridFieldComponent;
@@ -15,7 +17,7 @@ class PromoteToCollectionGridFieldAction extends AbstractGridFieldComponent impl
 {
     public function augmentColumns($gridField, &$columns)
     {
-        if (!in_array('Actions', $columns)) {
+        if (!in_array('Actions', $columns, true)) {
             $columns[] = 'Actions';
         }
     }
@@ -93,7 +95,7 @@ class PromoteToCollectionGridFieldAction extends AbstractGridFieldComponent impl
     {
         $field = $this->getFormAction($gridField, $record, $columnName);
 
-        return $field ? GridField_ActionMenuItem::DEFAULT_GROUP: null;
+        return $field ? GridField_ActionMenuItem::DEFAULT_GROUP : null;
     }
 
     private function getFormAction($gridField, $record, $columnName)
@@ -105,7 +107,7 @@ class PromoteToCollectionGridFieldAction extends AbstractGridFieldComponent impl
             'dopromotetocollection',
             [
                 'RecordID' => $record->ID,
-                'ClassName' => get_class($record)
+                'ClassName' => get_class($record),
             ]
         )
             ->addExtraClass('btn btn--icon-md grid-field__icon-action action-menu--handled font-icon-folder-move')

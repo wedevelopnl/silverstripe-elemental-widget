@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WeDevelop\ElementalWidget\Element;
 
 use DNADesign\Elemental\Models\BaseElement;
@@ -9,9 +11,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HeaderField;
-use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -19,7 +19,6 @@ use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use UncleCheese\DisplayLogic\Forms\Wrapper;
 use WeDevelop\ElementalWidget\Model\Widget;
-use WeDevelop\ElementalWidget\UserForm\Widget\UserFormWidget;
 
 /**
  * @property int $WidgetID
@@ -40,18 +39,27 @@ class ElementWidget extends BaseElement
     /** @config */
     private static string $icon = 'font-icon-cog';
 
-    /** @config */
+    /**
+     * @var array<string, string>
+     * @config
+     */
     private static array $db = [
         'SourcesFromCollection' => 'Boolean(1)',
         'WidgetClass' => 'Varchar(255)',
     ];
 
-    /** @config */
+    /**
+     * @var array<string, string>
+     * @config
+     */
     private static array $has_one = [
         'Widget' => Widget::class,
     ];
 
-    /** @config */
+    /**
+     * @var array<string, mixed>
+     * @config
+     */
     private static array $defaults = [
         'SourcesFromCollection' => true,
     ];
@@ -69,7 +77,7 @@ class ElementWidget extends BaseElement
             'SourcesFromCollection',
         ]);
 
-        $widgetFn = static function($val) {
+        $widgetFn = static function ($val) {
             $options = $val::get()->filter(['IsPartOfCollection' => true])->map();
 
             $options->unshift(0, 'Select a widget');
@@ -106,7 +114,7 @@ class ElementWidget extends BaseElement
                 ->displayIf('SourcesFromCollection')->isNotChecked()
                 ->andIf('WidgetClass')->isNotEmpty()
                 ->andIf('CurrentWidgetID')->isNotEmpty()
-                ->end()
+                ->end(),
         ]);
 
         if ($this->Widget() && $this->Widget()->exists()) {
@@ -158,12 +166,15 @@ class ElementWidget extends BaseElement
         return 'Widget';
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getWidgetTypes(): array
     {
         $widgetClassInfo = ClassInfo::subclassesFor(Widget::class, false);
         $widgets = [];
 
-        foreach ($widgetClassInfo as $lowercase => $uppercase) {
+        foreach ($widgetClassInfo as $uppercase) {
             $singleton = $uppercase::singleton();
             $widgets[$uppercase] = $singleton->i18n_singular_name();
         }
@@ -171,7 +182,7 @@ class ElementWidget extends BaseElement
         return $widgets;
     }
 
-    public function onBeforeWrite()
+    public function onBeforeWrite(): void
     {
         $widgetExists = $this->Widget()->exists();
 
@@ -236,7 +247,7 @@ class ElementWidget extends BaseElement
         parent::onBeforeWrite();
     }
 
-    public function getIcon()
+    public function getIcon(): ?DBHTMLText
     {
         if ($this->Widget()->exists() && method_exists($this->Widget(), 'getIcon')) {
             $data = ArrayData::create([]);
@@ -270,7 +281,7 @@ class ElementWidget extends BaseElement
         return parent::getIcon();
     }
 
-    public function setWidgetDropdown($widgetID)
+    public function setWidgetDropdown($widgetID): void
     {
         // This is a workaround for the onBeforeWrite handler, we cannot set the dropdown to WidgetID directly, since
         // that would result in it resetting to 0 if we try to set a widget NOT from the collection, since it is not an
@@ -280,7 +291,10 @@ class ElementWidget extends BaseElement
         }
     }
 
-    protected function provideBlockSchema()
+    /**
+     * @return array<string, string>
+     */
+    protected function provideBlockSchema(): array
     {
         $schema = parent::provideBlockSchema();
 
