@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WeDevelop\ElementalWidget\Element;
 
 use DNADesign\Elemental\Models\BaseElement;
+use SGN\HasOneEdit\HasOneEdit;
 use Sheadawson\DependentDropdown\Forms\DependentDropdownField;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
@@ -122,8 +123,14 @@ class ElementWidget extends BaseElement
 
             $widgetFields->removeByName([
                 'Title',
-                'Root.Main',
+                'Main',
             ]);
+
+            // We'll loop over the widget fields to properly set the name so it maps to the relation
+            // instead of trying to edit it on the element itself
+            foreach($widgetFields->dataFields() as $field) {
+                $field->setName('Widget' . HasOneEdit::FIELD_SEPARATOR . $field->getName());
+            }
 
             if ($this->SourcesFromCollection) {
                 $fields->addFieldToTab(
