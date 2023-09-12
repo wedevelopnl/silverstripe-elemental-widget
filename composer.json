@@ -14,6 +14,11 @@
         "dnadesign/silverstripe-elemental": "^4.9",
         "sheadawson/silverstripe-dependentdropdownfield": "^2",
         "unclecheese/display-logic": "^2.0",
+        "silverstripe/framework": "^4.11 || ^5.0",
+        "silverstripe/cms": "^4.11 || ^5.0",
+        "dnadesign/silverstripe-elemental": "^4.9 || ^5.0",
+        "sheadawson/silverstripe-dependentdropdownfield": "^2 || ^3",
+        "unclecheese/display-logic": "^2.0 || ^3.0",
         "stevie-mayhew/hasoneedit": "^2.0"
     },
     "require-dev": {
