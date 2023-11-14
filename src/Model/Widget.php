@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WeDevelop\ElementalWidget\Model;
 
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use WeDevelop\ElementalWidget\Element\ElementWidget;
@@ -33,7 +34,6 @@ class Widget extends DataObject
     private static array $db = [
         'Title' => 'Varchar(255)',
         'IsPartOfCollection' => 'Boolean(1)',
-        'ShowPagesUsedOn' => 'Boolean(1)',
     ];
 
     /**
@@ -82,7 +82,7 @@ class Widget extends DataObject
             'Elements',
         ]);
 
-        if ($this->exists() && $this->ShowPagesUsedOn) {
+        if ($this->exists() && Config::forClass(static::class)->get('show_pages_used_on')) {
             $fields->addFieldToTab('Root.PagesUsedOn', PagesGridField::create(
                 'PagesUsedOn',
                 'Pages used on',

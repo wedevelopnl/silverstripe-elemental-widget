@@ -1,0 +1,5 @@
+---
+Name: elemental-widget
+---
+WeDevelop\ElementalWidget\Model\Widget:
+    show_pages_used_on: true
