@@ -33,6 +33,7 @@ class Widget extends DataObject
     private static array $db = [
         'Title' => 'Varchar(255)',
         'IsPartOfCollection' => 'Boolean(1)',
+        'ShowPagesUsedOn' => 'Boolean(1)',
     ];
 
     /**
@@ -81,7 +82,7 @@ class Widget extends DataObject
             'Elements',
         ]);
 
-        if ($this->exists()) {
+        if ($this->exists() && $this->ShowPagesUsedOn) {
             $fields->addFieldToTab('Root.PagesUsedOn', PagesGridField::create(
                 'PagesUsedOn',
                 'Pages used on',
