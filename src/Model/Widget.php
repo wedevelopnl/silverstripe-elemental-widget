@@ -22,7 +22,7 @@ use SilverStripe\ORM\DataObject;
 class Widget extends DataObject
 {
     /** @config */
-    private static string $table_name = 'Widget';
+    private static string $table_name = 'WeDevelop_Widget';
 
     /** @config */
     private static string $icon = 'font-icon-database';
