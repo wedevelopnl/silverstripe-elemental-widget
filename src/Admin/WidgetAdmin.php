@@ -48,6 +48,11 @@ class WidgetAdmin extends ModelAdmin
     public function getGridField(): GridField
     {
         $gridField = parent::getGridField();
+
+        if (!in_array($gridField->getModelClass(), ClassInfo::subclassesFor(Widget::class), true)) {
+            return $gridField;
+        }
+
         $dataList = $gridField->getList();
 
         if ($dataList instanceof DataList) {
@@ -72,6 +77,11 @@ class WidgetAdmin extends ModelAdmin
     public function getEditForm($id = null, $fields = null): Form
     {
         $form = parent::getEditForm();
+
+        if (!in_array($this->getModelClass(), ClassInfo::subclassesFor(Widget::class), true)) {
+            return $form;
+        }
+
         $formFields = $form->Fields();
         $currentModelClass = $this->getModelClass();
         $dataList = $currentModelClass::get()->filter(['IsPartOfCollection' => false]);
